@@ -1,7 +1,10 @@
 <?php
+global $post;
+
 if (have_posts()){
 	while(have_posts()){    
 		the_post();
+    
 		$post_id = get_the_id();
 		$post_title = wp_strip_all_tags(get_the_title());
 		$post_time = get_the_time('Y-m-d\TH:i');
@@ -10,16 +13,41 @@ if (have_posts()){
 		$post_date_month = strtoupper(get_post_time('M'));
 		$post_date_day = get_the_time('j');    
 
-    // the_category(', ');
-    $post_category = get_the_category();
-    $post_category = $post_category[0];
-    $post_category_id = $post_category -> term_id;
-    $post_category_base = $post_category -> slug;
-    $post_category_name = $post_category -> name;
 
-    // このカテゴリーの URL を取得
-    $post_category_link = get_category_link($post_category->term_id);
+    if (is_singular('post')) {
 
+      // the_category(', ');
+      $post_category = get_the_category();
+      $post_category = $post_category[0];
+      $post_category_id = $post_category -> term_id;
+      $post_category_base = $post_category -> slug;
+      $post_category_name = $post_category -> name;
+      $post_category_link = get_category_link($post_category->term_id);
+      
+    } else if (is_page()) {
+
+      $parent_id = $post -> post_parent;
+      
+      if ($parent_id > 0) {
+        $post_category = get_post($parent_id);
+        $post_category_base = $post_category -> post_name;
+        $post_category_name = $post_category -> post_title;
+        $post_category_link = get_permalink($parent_id);     
+      } else {
+        $post_category_name = '';
+        $post_category_base = '';
+        $post_category_link = '';        
+      }
+      
+    } else {
+      
+      $post_category = get_post_type_object(get_post_type());
+      $post_category_name = get_post_type_object(get_post_type()) -> label;
+      $post_category_base = get_post_type_object(get_post_type()) -> name;
+      $post_category_link = DOMAIN.'/'.$post_category_base.'/';    // URLを取得
+    }
+    
+    
     // タイトル
     $title = $post_title;
     $head_title = $post_title.' - '.get_bloginfo('name').' '.$post_category_name;

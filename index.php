@@ -19,7 +19,6 @@ $theme_dir = get_template_directory();
 include_once($theme_dir."/functions/index.php");
 
 
-
 // テンプレート
 switch (true) {
     
@@ -35,34 +34,78 @@ switch (true) {
     break;
   
   // 固定ページ
-  case is_page():
+  case is_page():    
     $content_type = 'page';    
     include_once($theme_dir."/functions/post_data.php");
     break;
-  
+      
   // 投稿
   case is_single():
-    $content_type = 'single';    
+    $content_type = 'single';
     include_once($theme_dir."/functions/post_data.php");
     break;
   
-  // カテゴリー一覧
-  case is_category():
-    $post_category = get_queried_object();
-    $post_category_name = $post_category -> name;
-    $post_category_base = $post_category -> slug;
-
-    // このカテゴリーの URL を取得
-    $post_category_link = get_category_link($post_category->term_id);
+  // アーカイブ一覧
+  case is_archive():
+    $content_type = 'archive';
+    $post_category_name = '';
+    $post_category_base = '';
+    $post_category_link = '';
+    $head_description = '';
+    $headline = '';
+    $excerpt = '';
+    $post_thumbnail_base = '';
     
-    $content_type = 'category';
-    $title = $post_category_name.'に関する記事';
-    $head_description = category_description();
-    $head_ogp_img = mp_get_thumbnail('0', $post_category_base);
+    switch (true) {
+      case (is_category()):
+        $post_category = get_queried_object();
+        $post_category_name = $post_category -> name;
+        $post_category_base = $post_category -> slug;
+        $post_category_link = get_category_link($post_category->term_id);
+        $head_description = category_description();
+        $headline = $post_category_name;
+        $excerpt = $head_description;
+        $post_thumbnail_base = $post_category_base;
+        break;
+        
+      case (is_tag()):
+        $post_tag = get_queried_object();
+        $post_tag_name = $post_tag -> name;
+        $post_tag_base = $post_tag -> slug;
+        $headline = '「'.$post_tag_name.'」のタグ一覧';
+        $post_thumbnail_base = 'tag';
+        break;
+      
+      case (is_tax()):
+      case (is_author()):
+        die();
+        break;
+      
+      case (is_date()):
+        if (is_year()) {
+          $post_category_name = get_the_date('Y年');
+        } else {
+          $post_category_name = get_the_date('Y年n月');
+        }        
+        $headline = '「'.$post_category_name.'」の記事一覧';
+        $post_thumbnail_base = 'date';
+        break;
+      
+      default:   // カスタム投稿タイプアーカイブ
+        $post_category = get_queried_object();
+        $post_category_name = $post_category -> label;
+        $post_category_base = $post_category -> name;
+        $head_description = $post_category -> description;
+        $headline = $post_category_name;
+        $excerpt = $head_description;
+        $post_thumbnail_base = $post_category_base;
+    }
+    
+            
+    $head_ogp_img = mp_get_thumbnail('0', $post_thumbnail_base);
     if ($head_ogp_img === '') {
       $head_ogp_img = ASSETS_PATH.'/ogp.png';
     }
-    $current_link = $post_category_link;
     
     break;
   
@@ -85,6 +128,7 @@ switch (true) {
     die();
 }
 
+
 // titleタグ用のタイトル
 if (!isset($head_title)) {
   $head_title = $title.' - '.get_bloginfo('name');
@@ -103,7 +147,7 @@ if ($json === '') {
   <span class="js-ajax-head-ogp-img"><?php echo $head_ogp_img; ?></span>
   <span class="js-ajax-current-link"><?php echo $current_link; ?></span>
 </div>
-<?php
+<?php        
   include_once($theme_dir."/include/content/".$content_type.".php");
 }
 
