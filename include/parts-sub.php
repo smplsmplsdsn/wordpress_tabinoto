@@ -9,6 +9,7 @@
 
   <?php include_once($theme_dir."/include/parts-special.php"); ?>
   <?php include_once($theme_dir."/include/parts-new.php"); ?>
+  <?php include_once($theme_dir."/include/parts-tag.php"); ?>
 
   <div class="sub__ads">
     <div style="width: 300px;height:250px;margin:auto;background: #444"></div>
