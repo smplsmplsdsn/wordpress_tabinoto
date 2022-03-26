@@ -14,37 +14,39 @@ if (have_posts()){
 		$post_date_day = get_the_time('j');    
 
 
-    if (is_singular('post')) {
+    // 固定か投稿かそれ以外(カスタム投稿)で判別する
+    switch (true) {
+      case (is_page()):   // 固定
+        $parent_id = $post -> post_parent;
 
-      // the_category(', ');
-      $post_category = get_the_category();
-      $post_category = $post_category[0];
-      $post_category_id = $post_category -> term_id;
-      $post_category_base = $post_category -> slug;
-      $post_category_name = $post_category -> name;
-      $post_category_link = get_category_link($post_category->term_id);
-      
-    } else if (is_page()) {
-
-      $parent_id = $post -> post_parent;
-      
-      if ($parent_id > 0) {
-        $post_category = get_post($parent_id);
-        $post_category_base = $post_category -> post_name;
-        $post_category_name = $post_category -> post_title;
-        $post_category_link = get_permalink($parent_id);     
-      } else {
-        $post_category_name = '';
-        $post_category_base = '';
-        $post_category_link = '';        
-      }
-      
-    } else {
-      
-      $post_category = get_post_type_object(get_post_type());
-      $post_category_name = get_post_type_object(get_post_type()) -> label;
-      $post_category_base = get_post_type_object(get_post_type()) -> name;
-      $post_category_link = DOMAIN.'/'.$post_category_base.'/';    // URLを取得
+        // 親の階層があるか判別する
+        if ($parent_id > 0) {
+          $post_category = get_post($parent_id);
+          $post_category_base = $post_category -> post_name;
+          $post_category_name = $post_category -> post_title;
+          $post_category_link = get_permalink($parent_id);     
+        } else {
+          $post_category_name = '';
+          $post_category_base = '';
+          $post_category_link = '';        
+        }        
+        break;
+        
+      case (is_singular('post')):   // 投稿
+        // the_category(', ');
+        $post_category = get_the_category();
+        $post_category = $post_category[0];
+        $post_category_id = $post_category -> term_id;
+        $post_category_base = $post_category -> slug;
+        $post_category_name = $post_category -> name;
+        $post_category_link = get_category_link($post_category->term_id);
+        break;
+        
+      default:    // カスタム投稿
+        $post_category = get_post_type_object(get_post_type());
+        $post_category_name = get_post_type_object(get_post_type()) -> label;
+        $post_category_base = get_post_type_object(get_post_type()) -> name;
+        $post_category_link = DOMAIN.'/'.$post_category_base.'/';    // URLを取得
     }
     
     
