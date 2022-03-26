@@ -107,6 +107,9 @@ switch (true) {
       $head_ogp_img = ASSETS_PATH.'/ogp.png';
     }
     
+    $title = $headline;
+    $current_link = (empty($_SERVER['HTTPS'])? 'http://': 'https://').$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
     break;
   
   // 検索結果
