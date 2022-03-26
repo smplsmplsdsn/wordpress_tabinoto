@@ -5,17 +5,14 @@
   <div class="list list--04">
     <div class="list__inner">
       <ul>
-        <?php
-        $term_tag_html = '';
-        $term_list = get_terms('post_tag', array(
-          'orderby' => 'count',
-          'order' => 'DESC'
-        ));
-        foreach ($term_list as $term) {
-          $term_tag_html .= '<li><a class="js-link-ajax" href="/tag/'.$term -> slug.'/">'.$term -> name.'</a></li>';
-        }
-        echo $term_tag_html;
-        ?>      
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
+        <li><a class="js-link-ajax" href="/tag/youtube/">label</a></li>
       </ul>
     </div>
   </div>
