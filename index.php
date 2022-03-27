@@ -36,13 +36,13 @@ switch (true) {
   // 固定ページ
   case is_page():    
     $content_type = 'page';    
-    include_once($theme_dir."/functions/post_data.php");
+    include($theme_dir."/functions/post_data.php");
     break;
       
   // 投稿
   case is_single():
     $content_type = 'single';
-    include_once($theme_dir."/functions/post_data.php");
+    include($theme_dir."/functions/post_data.php");
     break;
   
   // アーカイブ一覧

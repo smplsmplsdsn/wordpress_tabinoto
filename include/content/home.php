@@ -6,22 +6,19 @@
   <div class="list list--01 list--smp-scroll">
     <div class="list__inner layout__3column">
       <?php
-      for ($i = 0; $i < 9; $i++) {
-      ?>
-        <article class="list__unit">
-          <div class="list__unit-inner js-link js-link-ajax" href="/uncategorized/hello-world/">
-            <figure data-category="カテゴリー名"></figure>
-            <div class="list__unit-text">
-              <h1 class="js-link-ajax" href="/uncategorized/hello-world/"><a>タイトルテキストタイトルテキストタイトルテキスト</a></h1>
-              <p class="list__unit-excerpt">これはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキスト...(テキスト:たけたけ)</p>
-              <p class="list__unit-spec">
-                <time>2022-4-1</time><span>カテゴリ名</span>
-              </p>
-            </div>
-          </div>
-        </article>
-      <?php
-      }
+      $list_type = 'standard';
+      $args = array(
+        'post_type' => $config_category_for_search,
+        'posts_per_page' => 9,
+      );
+      $the_query = new WP_Query($args);
+      if ($the_query->have_posts()):
+      while ($the_query->have_posts()): $the_query->the_post();        
+        include($theme_dir."/functions/post_data_core.php");
+      endwhile;
+      endif;
+      unset($list_type);    // データタイプの削除
+      wp_reset_query();    // 投稿データのリセット        
       ?>
     </div>
   </div>
@@ -29,91 +26,37 @@
 
 
 <div class="layout__3column">
-
+  
+  <?php
+  foreach ($config_category as $category_name => $category_base) {
+  ?>
   <section class="section section--home section section--bar">
     <div class="section__header">
-      <h1 class="js-link-ajax" href="/uncategorized/"><a>カメラ・ガジェット</a></h1>
+      <h1><a class="js-link-ajax" href="/<?php echo $category_base; ?>/"><?php echo $category_name; ?></a></h1>
     </div>
     <div class="list list--01 list--smp-scroll">
       <div class="list__inner">
         <?php
-        for ($i = 0; $i < 9; $i++) {
-        ?>
-        <article class="list__unit">
-          <div class="list__unit-inner js-link js-link-ajax" href="/uncategorized/hello-world/">
-            <figure data-category="カテゴリー名"></figure>
-            <div class="list__unit-text">
-              <h1 class="js-link-ajax" href="/uncategorized/hello-world/"><a>タイトルテキストタイトルテキストタイトルテキスト</a></h1>
-              <p class="list__unit-excerpt">これはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキスト...(テキスト:たけたけ)</p>
-              <p class="list__unit-spec">
-                <time>2022-4-1</time><span>カテゴリ名</span>
-              </p>
-            </div>
-          </div>
-        </article>
-        <?php
-        }
+        $list_type = 'standard';    // TODO 'category' にして、カテゴリーは「グルメ」「観光」などタクソノミーを表示する
+        $args = array(
+          'post_type' => $category_base,
+          'posts_per_page' => 9,
+        );
+        $the_query = new WP_Query($args);
+        if ($the_query->have_posts()):
+        while ($the_query->have_posts()): $the_query->the_post();        
+          include($theme_dir."/functions/post_data_core.php");
+        endwhile;
+        endif;
+        unset($list_type);    // データタイプの削除
+        wp_reset_query();    // 投稿データのリセット        
         ?>
       </div>
     </div>
-    <p class="section__more"><a class="js-link-ajax" href="/uncategorized/"><strong>カテゴリ名</strong>をもっとみる</a></p>
+    <p class="section__more"><a class="js-link-ajax" href="/<?php echo $category_base; ?>/"><strong><?php echo $category_name; ?></strong>をもっとみる</a></p>
   </section>
+  <?php
+  }
+  ?>
 
-  <section class="section section--home section section--bar">
-    <div class="section__header">
-      <h1 class="js-link-ajax" href="/uncategorized/"><a>インテリア</a></h1>
-    </div>
-    <div class="list list--01 list--smp-scroll">
-      <div class="list__inner">
-        <?php
-        for ($i = 0; $i < 9; $i++) {
-        ?>
-        <article class="list__unit">
-          <div class="list__unit-inner js-link js-link-ajax" href="/uncategorized/hello-world/">
-            <figure data-category="カテゴリー名"></figure>
-            <div class="list__unit-text">
-              <h1 class="js-link-ajax" href="/uncategorized/hello-world/"><a>タイトルテキストタイトルテキストタイトルテキスト</a></h1>
-              <p class="list__unit-excerpt">これはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキスト...(テキスト:たけたけ)</p>
-              <p class="list__unit-spec">
-                <time>2022-4-1</time><span>カテゴリ名</span>
-              </p>
-            </div>
-          </div>
-        </article>
-        <?php
-        }
-        ?>
-      </div>
-    </div>
-    <p class="section__more"><a class="js-link-ajax" href="/uncategorized/"><strong>カテゴリ名</strong>をもっとみる</a></p>
-  </section>
-
-  <section class="section section--home section section--bar">
-    <div class="section__header">
-      <h1 class="js-link-ajax" href="/uncategorized/"><a>東京散歩</a></h1>
-    </div>
-    <div class="list list--01 list--smp-scroll">
-      <div class="list__inner">
-        <?php
-        for ($i = 0; $i < 9; $i++) {
-        ?>
-        <article class="list__unit">
-          <div class="list__unit-inner js-link js-link-ajax" href="/uncategorized/hello-world/">
-            <figure data-category="カテゴリー名"></figure>
-            <div class="list__unit-text">
-              <h1 class="js-link-ajax" href="/uncategorized/hello-world/"><a>タイトルテキストタイトルテキストタイトルテキスト</a></h1>
-              <p class="list__unit-excerpt">これはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキストこれはテキストテキストテキスト...(テキスト:たけたけ)</p>
-              <p class="list__unit-spec">
-                <time>2022-4-1</time><span>カテゴリ名</span>
-              </p>
-            </div>
-          </div>
-        </article>
-        <?php
-        }
-        ?>
-      </div>
-    </div>
-    <p class="section__more"><a class="js-link-ajax" href="/uncategorized/"><strong>カテゴリ名</strong>をもっとみる</a></p>
-  </section>
 </div>
