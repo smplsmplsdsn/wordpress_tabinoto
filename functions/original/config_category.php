@@ -1,7 +1,7 @@
 <?php
 $config_category = array(
   'カメラ・ガジェット' => 'gadget',
-  'インテリア' => 'interior',
+  'インテリア・雑貨' => 'goods',
   '東京散歩' => 'discovery',
 );
 

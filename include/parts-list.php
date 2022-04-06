@@ -6,14 +6,12 @@
   <div class="list list--02">
     <div class="list__inner">      
       <?php
-      $list_type = 'standard';      
       if (have_posts()){
         while(have_posts()){    
           the_post();
-          include($theme_dir."/functions/post_data_core.php");
+          echo post_data_core(get_the_id(),'standard');
         }
       }      
-      unset($list_type);    // データタイプの削除      
       ?>
     </div>
   </div>

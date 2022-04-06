@@ -32,16 +32,17 @@
     <link rel="canonical" href="<?php echo $current_link; ?>">
     <?php wp_head(); ?>
   </head>  
-  <body>    
+  <body class="layout">
     <div class="wrapper">
       <?php include_once($theme_dir."/include/parts-header.php"); ?>
-      <?php include_once($theme_dir."/include/parts-nav.php"); ?>
+      <?php include_once($theme_dir."/include/parts-nav.php"); ?>      
 
-      <div class="layout">        
-        <main class="main layout__main">          
-          <div class="content show js-content">
-          <?php include_once($theme_dir."/include/content/".$content_type.".php"); ?>
+      <div class="layout__main-sub">        
+        <main class="main">          
+          <div class="content show js-content<?php echo $content_class; ?>">
+            <?php include_once($theme_dir."/include/content/".$content_type.".php"); ?>
           </div>
+          <?php include_once($theme_dir."/include/parts-common-01.php"); ?>
         </main>        
         <?php include_once($theme_dir."/include/parts-sub.php"); ?>
       </div>

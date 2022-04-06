@@ -5,7 +5,6 @@
   <div class="list list--03">
     <div class="list__inner">
       <?php
-      $list_type = 'standard';
       $args = array(
         'post_type' => $config_category_for_search,
         'posts_per_page' => 9,
@@ -14,10 +13,9 @@
       if ($the_query->have_posts()):
       while ($the_query->have_posts()): $the_query->the_post();
         
-        include($theme_dir."/functions/post_data_core.php");
+        echo post_data_core(get_the_id(), 'standard');
       endwhile;
       endif;
-      unset($list_type);    // データタイプの削除
       wp_reset_query();    // 投稿データのリセット        
       ?>
       

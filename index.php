@@ -19,6 +19,8 @@ $theme_dir = get_template_directory();
 include_once($theme_dir."/functions/index.php");
 
 
+$content_class = '';
+
 // テンプレート
 switch (true) {
     
@@ -31,18 +33,19 @@ switch (true) {
     $head_description = get_bloginfo('description');
     $head_ogp_img = ASSETS_PATH.'/ogp.png';
     $current_link = DOMAIN;
+    $content_class = ' content--home';
     break;
   
   // 固定ページ
   case is_page():    
-    $content_type = 'page';    
-    include($theme_dir."/functions/post_data.php");
+    $content_type = 'page';
+    include($theme_dir."/functions/get_post_data_core.php");
     break;
       
   // 投稿
   case is_single():
     $content_type = 'single';
-    include($theme_dir."/functions/post_data.php");
+    include($theme_dir."/functions/get_post_data_core.php");
     break;
   
   // アーカイブ一覧
